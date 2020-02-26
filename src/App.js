@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Form from "./components/Form";
-import Appointment from './components/Appointment';
+import Appointment from "./components/Appointment";
 function App() {
   //Arreglo de citas
   const [appointments, setAppointments] = useState([]);
@@ -12,9 +12,14 @@ function App() {
 
   //Función que elimina la cita segun el id
   const deleteAppointment = id => {
-    const newAppointments = appointments.filter(appointment => appointment.id !== id);
+    const newAppointments = appointments.filter(
+      appointment => appointment.id !== id
+    );
     setAppointments(newAppointments);
-  }
+  };
+  //Mensaje condicional
+  const title =
+    appointments.length === 0 ? "No hay citas" : "Administra las citas";
   return (
     <Fragment>
       <div className="App">
@@ -25,9 +30,9 @@ function App() {
               <Form createAppointment={createAppointment} />
             </div>
             <div className="one-half column">
-              <h2>Administra las citas</h2>
+              <h2>{title}</h2>
               {appointments.map(appointment => (
-                <Appointment 
+                <Appointment
                   key={appointment.id}
                   appointment={appointment}
                   deleteAppointment={deleteAppointment}
