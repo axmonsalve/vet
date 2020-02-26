@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-const Form = () => {
+const Form = ({ createAppointment }) => {
   //Crear state de citas
-  const [meeting, setMeeting] = useState({
+  const [appointment, setAppointment] = useState({
     pet: "",
     owner: "",
     date: "",
@@ -16,19 +17,19 @@ const Form = () => {
   //Funcion que se ejecuta cuando el usuario escribe en un input
   const handleChange = e => {
     //Funcion con el objeto para llenar el state
-    setMeeting({
+    setAppointment({
       //Tomamos una copia del state
-      ...meeting,
+      ...appointment,
       //Escribimos en el campo seleccionado
       [e.target.name]: e.target.value
     });
   };
 
   //Destructuring del state (objeto)
-  const { pet, owner, date, time, symptoms } = meeting;
+  const { pet, owner, date, time, symptoms } = appointment;
 
   //Cuando el usuario envia el formaulario
-  const meetingSubmit = e => {
+  const appointmentSubmit = e => {
     e.preventDefault();
 
     //Validar
@@ -39,19 +40,32 @@ const Form = () => {
       date.trim() === "" ||
       symptoms.trim() === ""
     ) {
-        setError(true);
-        return;
+      setError(true);
+      return;
     }
-    //setError(false);
+    //Ocultar el mensaje de error
+    setError(false);
 
     //Crear la cita
+    appointment.id = uuidv4(); //Asignando un id
+    createAppointment(appointment);
 
+    //Reiniciar formulario
+    setAppointment({
+      pet: "",
+      owner: "",
+      date: "",
+      time: "",
+      symptoms: ""
+    });
   };
   return (
     <Fragment>
       <h2>Crear Cita</h2>
-      {error? <p className="alerta-error">Todos los campos son obligatorios</p> : null}
-      <form onSubmit={meetingSubmit}>
+      {error ? (
+        <p className="alerta-error">Todos los campos son obligatorios</p>
+      ) : null}
+      <form onSubmit={appointmentSubmit}>
         <label>Nombre Mascota</label>
         <input
           type="text"
