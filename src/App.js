@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Form from "./components/Form";
-
+import Appointment from './components/Appointment';
 function App() {
   //Arreglo de citas
   const [appointments, setAppointments] = useState([]);
@@ -19,7 +19,13 @@ function App() {
               <Form createAppointment={createAppointment} />
             </div>
             <div className="one-half column">
-              <p>Citas aquí</p>
+              <h2>Administra las citas</h2>
+              {appointments.map(appointment => (
+                <Appointment 
+                  key={appointment.id}
+                  appointment={appointment}
+                />
+              ))}
             </div>
           </div>
         </div>
