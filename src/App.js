@@ -9,6 +9,12 @@ function App() {
   const createAppointment = appointment => {
     setAppointments([...appointments, appointment]);
   };
+
+  //Función que elimina la cita segun el id
+  const deleteAppointment = id => {
+    const newAppointments = appointments.filter(appointment => appointment.id !== id);
+    setAppointments(newAppointments);
+  }
   return (
     <Fragment>
       <div className="App">
@@ -24,6 +30,7 @@ function App() {
                 <Appointment 
                   key={appointment.id}
                   appointment={appointment}
+                  deleteAppointment={deleteAppointment}
                 />
               ))}
             </div>
