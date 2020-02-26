@@ -1,9 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Form from "./components/Form";
 import Appointment from "./components/Appointment";
 function App() {
+  //Citas en localStorage
+  let initialAppointments = JSON.parse(localStorage.getItem("appointments"));
+  if (!initialAppointments) {
+    initialAppointments = [];
+  }
+
   //Arreglo de citas
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState(initialAppointments);
+
+  //useEffect para cuando el state cambie
+  useEffect(() => {
+    if (initialAppointments) {
+      localStorage.setItem("appointments", JSON.stringify(appointments));
+    } else {
+      localStorage.setItem("appointments", JSON.stringify([]));
+    }
+  }, [appointments]);
 
   //Funcion que tome las citas actuales y agregue las nuevas
   const createAppointment = appointment => {
